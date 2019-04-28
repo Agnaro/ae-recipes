@@ -1,0 +1,39 @@
+.btn-add {
+  position: -webkit-sticky;
+  position: sticky;
+  float: right;
+  z-index: 100;
+  vertical-align: central;
+}
+
+.meal-delete-img {
+  display: block;
+  margin: auto;
+}
+
+.btn-edit {
+  display: block;
+  margin: auto;
+}
+
+.table-middle td {
+  vertical-align: middle;
+}
+
+.nav-link {
+  cursor: pointer;
+}
+
+.recipe-img {
+  max-height: 400px;
+  height: auto;
+  width: auto;
+}
+
+.detail-img {
+  max-width: 1000px;
+  max-height: 400px;
+  display: block;
+  margin: auto;
+  margin-top: 1rem;
+}
