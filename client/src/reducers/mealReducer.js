@@ -6,12 +6,17 @@ import {
   MEALS_LOADING
 } from "../actions/meal_actions/types";
 
+// const initialState = {
+//   meals: [
+//     { _id: 1, day: "Sunday", type: "Dinner", name: "Chicken" },
+//     { _id: 2, day: "Saturday", type: "Lunch", name: "Beef" },
+//     { _id: 3, day: "Monday", type: "Breakfast", name: "Banana" }
+//   ],
+//   loading: false
+// };
+
 const initialState = {
-  meals: [
-    { _id: 1, day: "Sunday", type: "Dinner", name: "Chicken" },
-    { _id: 2, day: "Saturday", type: "Lunch", name: "Beef" },
-    { _id: 3, day: "Monday", type: "Breakfast", name: "Banana" }
-  ],
+  meals: [],
   loading: false
 };
 
@@ -20,7 +25,7 @@ export default function(state = initialState, action) {
     case GET_MEALS:
       return {
         ...state,
-        //meals: action.payload,
+        meals: action.payload,
         loading: false
       };
     case DELETE_MEAL:

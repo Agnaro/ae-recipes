@@ -5,18 +5,24 @@ import {
   EDIT_MEAL,
   MEALS_LOADING
 } from "./types";
+import axios from "axios";
 
 export const getMeals = () => dispatch => {
   dispatch(setMealsLoading());
-  dispatch({
-    type: GET_MEALS
+  axios.get("/api/meals").then(res => {
+    dispatch({
+      type: GET_MEALS,
+      payload: res.data
+    });
   });
 };
 
 export const addMeal = meal => dispatch => {
-  dispatch({
-    type: ADD_MEAL,
-    payload: meal
+  axios.post("/api/meals", meal).then(res => {
+    dispatch({
+      type: ADD_MEAL,
+      payload: res.data
+    });
   });
 };
 
