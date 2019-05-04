@@ -6,15 +6,6 @@ import {
   MEALS_LOADING
 } from "../actions/meal_actions/types";
 
-// const initialState = {
-//   meals: [
-//     { _id: 1, day: "Sunday", type: "Dinner", name: "Chicken" },
-//     { _id: 2, day: "Saturday", type: "Lunch", name: "Beef" },
-//     { _id: 3, day: "Monday", type: "Breakfast", name: "Banana" }
-//   ],
-//   loading: false
-// };
-
 const initialState = {
   meals: [],
   loading: false

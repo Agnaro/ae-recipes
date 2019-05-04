@@ -27,7 +27,9 @@ export const addMeal = meal => dispatch => {
 };
 
 export const deleteMeal = id => dispatch => {
-  dispatch({ type: DELETE_MEAL, payload: id });
+  axios.delete("/api/meals/" + id).then(params => {
+    dispatch({ type: DELETE_MEAL, payload: id });
+  });
 };
 
 export const editMeal = meal => dispatch => {
