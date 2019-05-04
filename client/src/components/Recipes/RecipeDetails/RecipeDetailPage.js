@@ -12,7 +12,7 @@ export class RecipeDetailPage extends Component {
     return (
       <div style={{ textAlign: "center" }}>
         <h2>{recipe.name}</h2>
-        <img src={recipe.img} class="detail-img" />
+        <img src={recipe.img} alt="Prepared Meal" class="detail-img" />
         <p>{recipe.desc}</p>
       </div>
     );
