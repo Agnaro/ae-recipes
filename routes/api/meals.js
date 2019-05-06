@@ -30,6 +30,18 @@ router.post("/", (req, res) => {
   newMeal.save().then(meal => res.status(201).json(meal));
 });
 
+// @route PUT api/meals/:id
+// @desc Edits specified meal
+// @access Public (for now)
+router.put("/:id", (req, res) => {
+  const id = req.params.id;
+  const meal = req.body;
+
+  Meal.findByIdAndUpdate(id, meal, { new: true })
+    .then(meal => res.status(200).json(meal))
+    .catch(err => console.log(err));
+});
+
 // @route DELETE api/meals/:id
 // @desc removes the specified meal
 // @access Public (for now)

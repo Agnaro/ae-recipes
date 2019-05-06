@@ -37,6 +37,12 @@ export class MealEdit extends Component {
     });
   };
 
+  componentWillReceiveProps() {
+    this.setState((state, props) => ({
+      meal: props.meal
+    }));
+  }
+
   render() {
     return (
       <React.Fragment>

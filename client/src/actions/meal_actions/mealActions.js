@@ -33,9 +33,11 @@ export const deleteMeal = id => dispatch => {
 };
 
 export const editMeal = meal => dispatch => {
-  dispatch({
-    type: EDIT_MEAL,
-    payload: meal
+  axios.put("/api/meals/" + meal._id, meal).then(res => {
+    dispatch({
+      type: EDIT_MEAL,
+      payload: res.data
+    });
   });
 };
 
