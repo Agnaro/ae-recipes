@@ -7,9 +7,16 @@ import {
 } from "./types";
 import axios from "axios";
 
-export const getMeals = () => dispatch => {
+export const getMeals = () => (dispatch, getState) => {
   dispatch(setMealsLoading());
-  axios.get("/api/meals").then(res => {
+
+  var token = getState().user.user.token;
+  var headers = {};
+  if (token) {
+    headers.Authorization = "Bearer " + token;
+  }
+
+  axios.get("/api/meals", { headers: headers }).then(res => {
     dispatch({
       type: GET_MEALS,
       payload: res.data
@@ -17,8 +24,16 @@ export const getMeals = () => dispatch => {
   });
 };
 
-export const addMeal = meal => dispatch => {
-  axios.post("/api/meals", meal).then(res => {
+export const addMeal = meal => (dispatch, getState) => {
+  var token = getState().user.user.token;
+  var headers = {
+    "Content-Type": "application/json"
+  };
+  if (token) {
+    headers.Authorization = "Bearer " + token;
+  }
+
+  axios.post("/api/meals", meal, { headers: headers }).then(res => {
     dispatch({
       type: ADD_MEAL,
       payload: res.data
@@ -26,14 +41,28 @@ export const addMeal = meal => dispatch => {
   });
 };
 
-export const deleteMeal = id => dispatch => {
-  axios.delete("/api/meals/" + id).then(params => {
+export const deleteMeal = id => (dispatch, getState) => {
+  var token = getState().user.user.token;
+  var headers = {};
+  if (token) {
+    headers.Authorization = "Bearer " + token;
+  }
+
+  axios.delete("/api/meals/" + id, { headers: headers }).then(params => {
     dispatch({ type: DELETE_MEAL, payload: id });
   });
 };
 
-export const editMeal = meal => dispatch => {
-  axios.put("/api/meals/" + meal._id, meal).then(res => {
+export const editMeal = meal => (dispatch, getState) => {
+  var token = getState().user.user.token;
+  var headers = {
+    "Content-Type": "application/json"
+  };
+  if (token) {
+    headers.Authorization = "Bearer " + token;
+  }
+
+  axios.put("/api/meals/" + meal._id, meal, { headers: headers }).then(res => {
     dispatch({
       type: EDIT_MEAL,
       payload: res.data

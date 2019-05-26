@@ -3,8 +3,11 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const path = require("path");
 const compression = require("compression");
+const passport = require("passport");
+const morgan = require("morgan");
 
 const meals = require("./routes/api/meals");
+const users = require("./routes/api/users");
 
 const app = express();
 
@@ -23,8 +26,26 @@ mongoose
   .then(() => console.log("MongoDB connected..."))
   .catch(err => console.log(err));
 
+// Set headers
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
+
+// set port
+const port = process.env.PORT || 5000;
+
+// Passport Config
+require("./config/passport")(passport);
+app.use(passport.initialize());
+
 // use routes
 app.use("/api/meals", meals);
+app.use("/api/users", users);
 
 // serve static assests if in production
 if (process.env.NODE_ENV === "production") {
@@ -34,9 +55,6 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
 }
-
-// set port
-const port = process.env.PORT || 5000;
 
 //handle 404
 app.use((req, res, next) => {

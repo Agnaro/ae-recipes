@@ -1,0 +1,13 @@
+.wide-button {
+  width: 100%;
+}
+
+.login-error-hidden {
+  display: none;
+}
+
+.login-error {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+}

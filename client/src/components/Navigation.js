@@ -9,6 +9,8 @@ import {
   NavItem,
   NavLink
 } from "reactstrap";
+import Login from "../components/User/Login";
+import Register from "../components/User/Register";
 import PropTypes from "prop-types";
 
 export default class Navigation extends React.Component {
@@ -41,11 +43,13 @@ export default class Navigation extends React.Component {
             </Nav>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink href="/components/">Components</NavLink>
+                <NavLink href="#">
+                  <Login />
+                </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="https://github.com/reactstrap/reactstrap">
-                  GitHub
+                <NavLink href="#">
+                  <Register />
                 </NavLink>
               </NavItem>
             </Nav>
