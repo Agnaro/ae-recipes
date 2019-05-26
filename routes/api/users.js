@@ -8,27 +8,33 @@ let User = require("../../models/user");
 
 // Register Process
 router.post("/register", function(req, res) {
-  const { username, password } = req.body;
+  const { username, password, key } = req.body;
   if (!username || !password) {
     res
       .status(400)
       .json({ success: false, msg: "Please pass username and password." });
   } else {
-    var newUser = new User({
-      username: username,
-      password: password
-    });
-    // save user
-    newUser.save(function(err) {
-      if (err) {
-        return res
-          .status(400)
-          .json({ success: false, msg: "Username already exists." });
-      }
+    if (key !== config.registerKey) {
       res
-        .status(201)
-        .json({ success: true, msg: "Successfully created new user." });
-    });
+        .status(401)
+        .json({ success: false, msg: "Invalid registration key." });
+    } else {
+      var newUser = new User({
+        username: username,
+        password: password
+      });
+      // save user
+      newUser.save(function(err) {
+        if (err) {
+          return res
+            .status(400)
+            .json({ success: false, msg: "Username already exists." });
+        }
+        res
+          .status(201)
+          .json({ success: true, msg: "Successfully created new user." });
+      });
+    }
   }
 });
 
@@ -50,9 +56,10 @@ router.post("/login", function(req, res) {
         user.comparePassword(req.body.password, function(err, isMatch) {
           if (isMatch && !err) {
             // if user is found and password is right create a token
-            var token = jwt.sign(user.toJSON(), config.secret);
+            const payload = { sub: user._id, name: user.username };
+            var token = jwt.sign(JSON.stringify(payload), config.secret);
             // return the information including token as JSON
-            res.json({ success: true, token: token });
+            res.json({ success: true, token: token, id: payload.sub });
           } else {
             res.status(401).send({
               success: false,

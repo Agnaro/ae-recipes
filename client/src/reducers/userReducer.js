@@ -2,13 +2,15 @@ import {
   LOGIN,
   LOGOUT,
   USER_ERROR,
-  USER_LOADING
+  USER_LOADING,
+  CLEAR_ERROR
 } from "../actions/user_actions/types";
 
 const initialState = {
   user: {},
   loading: false,
-  error: false
+  error: false,
+  errorMsg: ""
 };
 
 export default function(state = initialState, action) {
@@ -34,7 +36,14 @@ export default function(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        error: true
+        error: true,
+        errorMsg: action.payload
+      };
+    case CLEAR_ERROR:
+      return {
+        ...state,
+        error: false,
+        errorMsg: ""
       };
     default:
       return state;

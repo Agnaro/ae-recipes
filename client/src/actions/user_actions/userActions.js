@@ -1,4 +1,4 @@
-import { LOGIN, LOGOUT, USER_ERROR, USER_LOADING } from "./types";
+import { LOGIN, LOGOUT, USER_ERROR, USER_LOADING, CLEAR_ERROR } from "./types";
 import axios from "axios";
 
 export const login = user => dispatch => {
@@ -10,6 +10,7 @@ export const login = user => dispatch => {
         dispatch({
           type: LOGIN,
           payload: {
+            id: res.data.id,
             token: res.data.token
           }
         });
@@ -40,5 +41,11 @@ export const setError = err => {
   return {
     type: USER_ERROR,
     payload: err
+  };
+};
+
+export const clearError = () => {
+  return {
+    type: CLEAR_ERROR
   };
 };
