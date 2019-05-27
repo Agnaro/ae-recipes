@@ -16,7 +16,7 @@ export const getMeals = () => (dispatch, getState) => {
     headers.Authorization = "Bearer " + token;
   }
 
-  axios.get("/api/meals", { headers: headers }).then(res => {
+  axios.get("/api/meals/", { headers: headers }).then(res => {
     dispatch({
       type: GET_MEALS,
       payload: res.data
@@ -33,7 +33,7 @@ export const addMeal = meal => (dispatch, getState) => {
     headers.Authorization = "Bearer " + token;
   }
 
-  axios.post("/api/meals", meal, { headers: headers }).then(res => {
+  axios.post("/api/meals/", meal, { headers: headers }).then(res => {
     dispatch({
       type: ADD_MEAL,
       payload: res.data

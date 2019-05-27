@@ -5,17 +5,18 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import Navigation from "./components/Navigation";
 import MealsPage from "./components/MealPlanning/MealsPage";
 import RecipeRoutes from "./components/Recipes/RecipeRoutes";
+import Home from "./components/Home";
 
 import { Provider } from "react-redux";
 import store from "./store.js";
 
 const ROUTES = [
-  /* {
+  {
     path: "/",
     exact: true,
     navName: "Home",
-    main: () => <RecipeListPage />
-  }, */
+    main: () => <Home />
+  },
   {
     path: "/meals/",
     navName: "Meals",

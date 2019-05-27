@@ -12,6 +12,10 @@ const MealSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true
+  },
+  users: {
+    type: [String],
+    required: true
   }
 });
 

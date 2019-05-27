@@ -17,6 +17,9 @@ export const login = user => dispatch => {
         resolve(res.data.token);
       })
       .catch(err => {
+        if (typeof err === "object") {
+          err = err.response.data.msg;
+        }
         dispatch(setError(err));
         reject(err);
       });
@@ -24,11 +27,7 @@ export const login = user => dispatch => {
 };
 
 export const logout = () => dispatch => {
-  axios.get("/api/users/logout").then(res => {
-    dispatch({
-      type: LOGOUT
-    });
-  });
+  dispatch({ type: LOGOUT });
 };
 
 export const setLoading = () => {

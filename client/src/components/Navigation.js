@@ -1,16 +1,7 @@
 import React from "react";
 import { NavLink as Link } from "react-router-dom";
-import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink
-} from "reactstrap";
-import Login from "../components/User/Login";
-import Register from "../components/User/Register";
+import { Collapse, Navbar, NavbarToggler, Nav } from "reactstrap";
+import LoginNav from "../components/User/LoginNav";
 import PropTypes from "prop-types";
 
 export default class Navigation extends React.Component {
@@ -31,7 +22,9 @@ export default class Navigation extends React.Component {
     return (
       <div style={{ marginBottom: "2rem" }}>
         <Navbar color="dark" dark expand="md">
-          <NavbarBrand href="/">Meal Planning</NavbarBrand>
+          <Link to="/" className="navbar-brand">
+            Meal Planning
+          </Link>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="mr-auto" navbar>
@@ -42,16 +35,7 @@ export default class Navigation extends React.Component {
               ))}
             </Nav>
             <Nav className="ml-auto" navbar>
-              <NavItem>
-                <NavLink href="#">
-                  <Login />
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink href="#">
-                  <Register />
-                </NavLink>
-              </NavItem>
+              <LoginNav />
             </Nav>
           </Collapse>
         </Navbar>
