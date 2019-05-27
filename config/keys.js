@@ -3,9 +3,9 @@ const fs = require("fs");
 var keys = {};
 
 if (process.env.NODE_ENV === "production") {
-  const private_key = fs.readFileSync("../private.key");
-  const register_key = fs.readFileSync("../register.key");
-  const db_key = fs.readFileSync("../db.key");
+  const private_key = fs.readFileSync("private.key");
+  const register_key = fs.readFileSync("register.key");
+  const db_key = fs.readFileSync("db.key");
 
   keys = {
     mongoURI: db_key,
