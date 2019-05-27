@@ -4,9 +4,15 @@ const path = require("path");
 var keys = {};
 
 if (process.env.NODE_ENV === "production") {
-  const private_key = fs.readFileSync(path.resolve(__dirname, "private.key"));
-  const register_key = fs.readFileSync(path.resolve(__dirname, "register.key"));
-  const db_key = fs.readFileSync(path.resolve(__dirname, "db.key"));
+  const private_key = fs.readFileSync(
+    path.resolve(__dirname, "private.key"),
+    "utf8"
+  );
+  const register_key = fs.readFileSync(
+    path.resolve(__dirname, "register.key"),
+    "utf8"
+  );
+  const db_key = fs.readFileSync(path.resolve(__dirname, "db.key"), "utf8");
 
   keys = {
     mongoURI: db_key,
