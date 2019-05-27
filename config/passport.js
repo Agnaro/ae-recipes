@@ -1,4 +1,4 @@
-const User = require("../models/user");
+const User = require("../models/User");
 const { Strategy, ExtractJwt } = require("passport-jwt");
 
 var config = require("../config/keys"); // get db config file

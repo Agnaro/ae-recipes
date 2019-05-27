@@ -4,7 +4,7 @@ var config = require("../../config/keys");
 var jwt = require("jsonwebtoken");
 
 // Bring in Models
-let User = require("../../models/user");
+let User = require("../../models/User");
 
 // Register Process
 router.post("/register", function(req, res) {
