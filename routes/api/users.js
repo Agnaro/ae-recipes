@@ -7,6 +7,8 @@ const passport = require("passport");
 // Bring in Models
 let User = require("../../models/User");
 
+const userService = import("../../services/userService.mjs");
+
 // Register Process
 router.post("/register", function(req, res) {
   const { username, password, key } = req.body;
