@@ -1,5 +1,33 @@
-import { LOGIN, LOGOUT, USER_ERROR, USER_LOADING, CLEAR_ERROR } from "./types";
+import {
+  LOGIN,
+  LOGOUT,
+  USER_ERROR,
+  USER_LOADING,
+  CLEAR_ERROR,
+  GET_USER
+} from "./types";
 import axios from "axios";
+
+export const getUser = () => dispatch => {
+  dispatch(setLoading());
+  axios
+    .get("/api/users")
+    .then(res => {
+      dispatch({
+        type: GET_USER,
+        payload: res.data.user
+      });
+    })
+    .catch(err => {
+      if (typeof err === "object") {
+        if (err.response.status !== 401) {
+          dispatch(setError(err.response.data.msg));
+        }
+      } else {
+        dispatch(setError(err));
+      }
+    });
+};
 
 export const login = user => dispatch => {
   return new Promise((resolve, reject) => {
@@ -27,7 +55,11 @@ export const login = user => dispatch => {
 };
 
 export const logout = () => dispatch => {
-  dispatch({ type: LOGOUT });
+  axios.get("/api/users/logout").then(res => {
+    dispatch({
+      type: LOGOUT
+    });
+  });
 };
 
 export const setLoading = () => {

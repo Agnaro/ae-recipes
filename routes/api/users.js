@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 var config = require("../../config/keys");
 var jwt = require("jsonwebtoken");
+const passport = require("passport");
 
 // Bring in Models
 let User = require("../../models/User");
@@ -58,8 +59,17 @@ router.post("/login", function(req, res) {
             // if user is found and password is right create a token
             const payload = { sub: user._id, name: user.username };
             var token = jwt.sign(JSON.stringify(payload), config.secret);
-            // return the information including token as JSON
-            res.json({ success: true, token: token, id: payload.sub });
+
+            if (process.env.NODE_ENV === "production") {
+              var tokenOpts = { httpOnly: true, secure: true };
+            } else {
+              var tokenOpts = { httpOnly: true };
+            }
+
+            // return token in cookie
+            res.cookie("SESSIONID", token, tokenOpts);
+            // return the user id as JSON
+            res.json({ success: true, id: payload.sub });
           } else {
             res.status(401).send({
               success: false,
@@ -74,7 +84,23 @@ router.post("/login", function(req, res) {
 
 router.get("/logout", function(req, res) {
   req.logOut();
-  res.status(200);
+
+  res.cookie("SESSIONID", null, { maxAge: Date.now() });
+  res.status(200).json({ success: true });
 });
+
+router.get(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    User.findOne({ _id: req.user.id })
+      .then(user =>
+        res.status(200).json({ success: true, user: { id: user.id } })
+      )
+      .catch(err =>
+        res.status(500).json({ success: false, msg: "User not found" })
+      );
+  }
+);
 
 module.exports = router;

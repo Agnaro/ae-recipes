@@ -3,7 +3,8 @@ import {
   LOGOUT,
   USER_ERROR,
   USER_LOADING,
-  CLEAR_ERROR
+  CLEAR_ERROR,
+  GET_USER
 } from "../actions/user_actions/types";
 
 const initialState = {
@@ -22,10 +23,18 @@ export default function(state = initialState, action) {
         loading: false,
         error: false
       };
+    case GET_USER:
+      return {
+        ...state,
+        user: action.payload,
+        loading: false,
+        error: false
+      };
     case LOGOUT:
       return {
         ...state,
-        user: {}
+        user: {},
+        error: false
       };
     case USER_LOADING:
       return {

@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 const path = require("path");
 const compression = require("compression");
 const passport = require("passport");
@@ -16,6 +17,9 @@ app.use(compression());
 
 // body-parser middleware
 app.use(bodyParser.json());
+
+// cookie-parser middleware
+app.use(cookieParser());
 
 // configure db
 const db = require("./config/keys").mongoURI;
