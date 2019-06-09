@@ -36,7 +36,10 @@ router.post(
       name: req.body.name,
       users: [req.user.id]
     });
-    newMeal.save().then(meal => res.status(201).json(meal));
+    newMeal
+      .save()
+      .then(meal => res.status(201).json(meal))
+      .catch(err => res.status(500).end());
   }
 );
 
