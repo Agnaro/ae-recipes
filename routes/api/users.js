@@ -44,7 +44,7 @@ router.post("/login", userVal.userLogin, function(req, res) {
 router.get("/logout", function(req, res) {
   req.logOut();
 
-  res.cookie("SESSIONID", null, { maxAge: Date.now() });
+  res.cookie("SESSIONID", null, { maxAge: -1 });
   res.status(200).json({ success: true });
 });
 
