@@ -4,9 +4,6 @@ const router = express.Router();
 const passport = require("passport");
 const userVal = require("../../validators/userValidator");
 
-// Bring in Models
-let User = require("../../models/User");
-
 const userService = esmImport("../../services/userService.mjs");
 
 // Register Process
