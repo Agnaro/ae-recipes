@@ -7,8 +7,8 @@ export class RecipeCard extends Component {
   render() {
     var { recipe } = this.props;
     return (
-      <React.Fragment>
-        <Link to={`/recipes/${recipe.id}`} style={{ color: "black" }}>
+      <div className="recipe-card">
+        <Link to={`/recipes/${recipe._id}`}>
           <Card>
             <CardImg
               top
@@ -23,7 +23,7 @@ export class RecipeCard extends Component {
             </CardBody>
           </Card>
         </Link>
-      </React.Fragment>
+      </div>
     );
   }
 }

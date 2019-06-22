@@ -1,24 +1,26 @@
 import React, { Component } from "react";
-import { CardColumns } from "reactstrap";
-import RecipeCard from "./RecipeCard";
-import PropTypes from "prop-types";
+import RecipeList from "./RecipeList";
+import InfiniteScroll from "../../Utility/InfiniteScroll";
+import AddRecipe from "./AddRecipe";
+import Axios from "axios";
 
 export class RecipeListPage extends Component {
+  getRecipes() {
+    return Axios.get("/api/recipes");
+  }
+
+  childRender(data) {
+    return <RecipeList data={data} />;
+  }
+
   render() {
     return (
       <div>
-        <CardColumns>
-          {this.props.recipes.map((r, i) => (
-            <RecipeCard recipe={r} key={i} />
-          ))}
-        </CardColumns>
+        <InfiniteScroll getData={this.getRecipes} render={this.childRender} />
+        <AddRecipe />
       </div>
     );
   }
 }
-
-RecipeListPage.propTypes = {
-  recipes: PropTypes.array.isRequired
-};
 
 export default RecipeListPage;

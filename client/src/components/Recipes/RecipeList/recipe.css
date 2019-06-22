@@ -1,0 +1,47 @@
+.recipe-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-content: flex-start;
+}
+
+.recipe-card {
+  flex-basis: 350px;
+  margin: 5px 0.5rem 5px 0.5rem;
+}
+
+.card:hover {
+  border-color: #00000077;
+  box-shadow: 5px 5px 5px #00000077;
+}
+
+.recipe-card a {
+  color: black;
+}
+
+.recipe-card a:hover {
+  text-decoration: none;
+}
+
+.add-button {
+  background-color: black;
+  color: white;
+  height: 30px;
+  width: 30px;
+  position: fixed;
+  border-radius: 50%;
+  right: 2rem;
+  top: 4rem;
+  opacity: 0.75;
+  font-family: monospace;
+  text-align: center;
+  font-size: 20px;
+  line-height: 30px;
+  cursor: pointer;
+}
+
+.add-button:hover {
+  border: black solid 1px;
+  background-color: lightblue;
+  color: black;
+}
