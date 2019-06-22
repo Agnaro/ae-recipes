@@ -20,7 +20,7 @@ export default class Navigation extends React.Component {
   }
   render() {
     return (
-      <div style={{ marginBottom: "2rem" }}>
+      <div className="nav-bar">
         <Navbar color="dark" dark expand="md">
           <Link to="/" className="navbar-brand">
             Meal Planning

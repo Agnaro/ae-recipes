@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Container } from "reactstrap";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Navigation from "./Navigation";
 import MealsPage from "./MealPlanning/MealsPage";
@@ -44,41 +43,37 @@ export class MainRouter extends Component {
 
   renderLogin() {
     return (
-      <div>
-        <Container>
-          <Router>
-            <div>
-              <Navigation routes={ROUTES} />
-              <p>
-                Please login to use this site. This site does not work if you
-                are not logged in.
-              </p>
-            </div>
-          </Router>
-        </Container>
+      <div className="site-container">
+        <Router>
+          <div>
+            <Navigation routes={ROUTES} />
+            <p>
+              Please login to use this site. This site does not work if you are
+              not logged in.
+            </p>
+          </div>
+        </Router>
       </div>
     );
   }
 
   renderMain() {
     return (
-      <div>
-        <Container>
-          <Router>
-            <div>
-              <Navigation routes={ROUTES} />
+      <div className="site-container">
+        <Router>
+          <div>
+            <Navigation routes={ROUTES} />
 
-              {ROUTES.map((route, index) => (
-                <Route
-                  path={route.path}
-                  exact={route.exact}
-                  render={route.main}
-                  key={index}
-                />
-              ))}
-            </div>
-          </Router>
-        </Container>
+            {ROUTES.map((route, index) => (
+              <Route
+                path={route.path}
+                exact={route.exact}
+                render={route.main}
+                key={index}
+              />
+            ))}
+          </div>
+        </Router>
       </div>
     );
   }
