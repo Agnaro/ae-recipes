@@ -9,6 +9,7 @@ const morgan = require("morgan");
 
 const meals = require("./routes/api/meals");
 const users = require("./routes/api/users");
+const recipes = require("./routes/api/recipes");
 
 const app = express();
 
@@ -50,6 +51,7 @@ app.use(passport.initialize());
 // use routes
 app.use("/api/meals", meals);
 app.use("/api/users", users);
+app.use("/api/recipes", recipes);
 
 // serve static assests if in production
 if (process.env.NODE_ENV === "production") {
