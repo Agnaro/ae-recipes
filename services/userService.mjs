@@ -1,11 +1,13 @@
-import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 import * as config from "../config/keys.js";
 
 export default class userService {
+  constructor(UserModel) {
+    this.User = UserModel;
+  }
   Signup(userDTO) {
     return new Promise((resolve, reject) => {
-      var newUser = new User({
+      var newUser = new this.User({
         username: userDTO.username,
         password: userDTO.password
       });
@@ -32,7 +34,7 @@ export default class userService {
 
   returnUserInfo(id) {
     return new Promise((resolve, reject) => {
-      User.findById(id)
+      this.User.findById(id)
         .then(user => resolve({ user: { id: user._id, name: user.username } }))
         .catch(err => reject({ status: 401, msg: "User not found." }));
     });
@@ -40,7 +42,7 @@ export default class userService {
 
   findUserByName(username) {
     return new Promise((resolve, reject) => {
-      User.findOne({ username: username })
+      this.User.findOne({ username: username })
         .then(user => resolve(user))
         .catch(err => reject({ status: 401, msg: "User not found." }));
     });

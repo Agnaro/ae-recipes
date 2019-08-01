@@ -2,6 +2,7 @@ const esmImport = require("esm")(module);
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
+const User = require("../../models/User");
 const userVal = require("../../validators/userValidator");
 
 const userService = esmImport("../../services/userService.mjs");
@@ -9,7 +10,7 @@ const userService = esmImport("../../services/userService.mjs");
 // Register Process
 router.post("/register", userVal.userSignup, function(req, res) {
   const userDTO = { username: req.body.username, password: req.body.password };
-  const userServInst = new userService.default();
+  const userServInst = new userService.default(User);
 
   userServInst
     .Signup(userDTO)
@@ -19,7 +20,7 @@ router.post("/register", userVal.userSignup, function(req, res) {
 
 router.post("/login", userVal.userLogin, function(req, res) {
   const userDTO = { username: req.body.username, password: req.body.password };
-  const userServInst = new userService.default();
+  const userServInst = new userService.default(User);
 
   if (process.env.NODE_ENV === "production") {
     var tokenOpts = { httpOnly: true, secure: true };
@@ -49,7 +50,7 @@ router.get(
   "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    const userServInst = new userService.default();
+    const userServInst = new userService.default(User);
 
     userServInst
       .returnUserInfo(req.user.id)

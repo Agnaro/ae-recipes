@@ -1,13 +1,27 @@
 const esmImport = require("esm")(module);
 const express = require("express");
 const router = express.Router();
+const Recipe = require("../../models/Recipe");
 const passport = require("passport");
-//const recipeVal = require("../../validators/recipeValidator");
+const multer = require("multer");
+const recipeVal = require("../../validators/recipeValidator");
 
 const recipeService = esmImport("../../services/recipeService.mjs");
 
+// multer setup
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, "public/img");
+  },
+  filename: function(req, file, cb) {
+    cb(null, Date.now() + "-" + file.originalname);
+  }
+});
+
+var upload = multer({ storage: storage });
+
 router.get("/", (req, res) => {
-  const recServ = new recipeService.default();
+  const recServ = new recipeService.default(Recipe);
   const limit = req.params.limit || null;
 
   recServ
@@ -17,7 +31,7 @@ router.get("/", (req, res) => {
 });
 
 router.get("/:id", (req, res) => {
-  const recServ = new recipeService.default();
+  const recServ = new recipeService.default(Recipe);
 
   recServ
     .FindById(req.params.id)
@@ -25,9 +39,9 @@ router.get("/:id", (req, res) => {
     .catch(err => res.status(404).send("Recipe not found."));
 });
 
-router.post("/", (req, res) => {
-  const recServ = new recipeService.default();
-  const { recipe } = req.body;
+router.post("/", upload.single("pic"), recipeVal, (req, res) => {
+  const recServ = new recipeService.default(Recipe);
+  const recipe = { ...req.body, pic: req.file ? req.file.path : "" };
 
   recServ
     .Add(recipe)

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Card, CardImg, CardBody, CardText, CardTitle } from "reactstrap";
+import { server } from "../../../utils";
 import PropTypes from "prop-types";
 
 export class RecipeCard extends Component {
@@ -13,7 +14,7 @@ export class RecipeCard extends Component {
             <CardImg
               top
               className="recipe-img img-fluid rounded"
-              src={recipe.img}
+              src={server + recipe.pic}
             />
             <CardBody>
               <CardTitle>

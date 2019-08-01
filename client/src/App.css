@@ -30,14 +30,6 @@
   width: auto;
 }
 
-.detail-img {
-  max-width: 1000px;
-  max-height: 400px;
-  display: block;
-  margin: auto;
-  margin-top: 1rem;
-}
-
 .nav-bar {
   margin-bottom: 1rem;
 }

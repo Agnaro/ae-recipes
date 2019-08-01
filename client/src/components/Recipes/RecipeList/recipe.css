@@ -45,3 +45,11 @@
   background-color: lightblue;
   color: black;
 }
+
+.detail-img {
+  max-width: 1000px;
+  max-height: 400px;
+  display: block;
+  margin: auto;
+  margin-top: 1rem;
+}

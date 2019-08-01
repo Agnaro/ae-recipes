@@ -1,9 +1,11 @@
-import Recipe from "../models/Recipe.js";
-
 export default class recipeService {
+  constructor(RecipeModel) {
+    this.Recipe = RecipeModel;
+  }
+
   Add(recipe) {
     return new Promise((resolve, reject) => {
-      const newRecipe = new Recipe(recipe);
+      const newRecipe = new this.Recipe(recipe);
       newRecipe
         .save()
         .then(rec => resolve(rec))
@@ -13,7 +15,7 @@ export default class recipeService {
 
   List(max = 20) {
     return new Promise((resolve, reject) => {
-      Recipe.find(null, null, { limit: max })
+      this.Recipe.find(null, null, { limit: max })
         .then(list => resolve(list))
         .catch(err => reject(err));
     });
@@ -21,7 +23,7 @@ export default class recipeService {
 
   FindById(id) {
     return new Promise((resolve, reject) => {
-      Recipe.findById(id)
+      this.Recipe.findById(id)
         .then(rec => resolve(rec))
         .catch(err => reject(err));
     });
@@ -29,14 +31,14 @@ export default class recipeService {
 
   FindByName(name) {
     return new Promise((resolve, reject) => {
-      Recipe.findOne({ name: name })
+      this.Recipe.findOne({ name: name })
         .then(rec => resolve(rec))
         .catch(err => reject(err));
     });
   }
 
   Update(id, recipe) {
-    Recipe.findByIdAndUpdate(id, recipe, { new: true })
+    this.Recipe.findByIdAndUpdate(id, recipe, { new: true })
       .then(rec => resolve(rec))
       .catch(err => reject(err));
   }

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { server } from "../../../utils";
 import Axios from "axios";
 
 export class RecipeDetailPage extends Component {
@@ -28,7 +29,11 @@ export class RecipeDetailPage extends Component {
     return (
       <div style={{ textAlign: "center" }}>
         <h2>{recipe.name}</h2>
-        <img src={recipe.img} alt="Prepared Meal" className="detailImg" />
+        <img
+          src={server + recipe.pic}
+          alt="Prepared Meal"
+          className="detail-img"
+        />
         <p>{recipe.desc}</p>
       </div>
     );

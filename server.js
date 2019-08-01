@@ -53,6 +53,8 @@ app.use("/api/meals", meals);
 app.use("/api/users", users);
 app.use("/api/recipes", recipes);
 
+app.use("/public", express.static("public"));
+
 // serve static assests if in production
 if (process.env.NODE_ENV === "production") {
   // Set static folder
