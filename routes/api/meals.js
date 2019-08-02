@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
+const mealComparer = require("../../services/mealCompare.util");
 
 // Meal model
 const Meal = require("../../models/Meal");
@@ -13,9 +14,8 @@ router.get(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Meal.find({ users: req.user.id })
-      .sort({ day: "desc", type: "asc" })
       .then(meals => {
-        res.json(meals);
+        res.json(meals.sort(mealComparer));
       })
       .catch(err => {
         console.log(err);
