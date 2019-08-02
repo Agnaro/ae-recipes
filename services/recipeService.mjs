@@ -1,6 +1,7 @@
 export default class recipeService {
   constructor(RecipeModel) {
     this.Recipe = RecipeModel;
+    this.perPage = 20;
   }
 
   Add(recipe) {
@@ -13,9 +14,11 @@ export default class recipeService {
     });
   }
 
-  List(max = 20) {
+  List(page = 0) {
     return new Promise((resolve, reject) => {
-      this.Recipe.find(null, null, { limit: max })
+      this.Recipe.find()
+        .limit(this.perPage)
+        .skip(this.perPage * page)
         .then(list => resolve(list))
         .catch(err => reject(err));
     });

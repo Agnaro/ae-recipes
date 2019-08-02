@@ -22,10 +22,10 @@ var upload = multer({ storage: storage });
 
 router.get("/", (req, res) => {
   const recServ = new recipeService.default(Recipe);
-  const limit = req.params.limit || null;
+  const page = req.query.page || null;
 
   recServ
-    .List(limit)
+    .List(page)
     .then(recipes => res.status(200).json(recipes))
     .catch(err => res.status(500).send("No recipes found."));
 });

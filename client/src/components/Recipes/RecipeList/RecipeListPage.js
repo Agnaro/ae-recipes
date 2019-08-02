@@ -5,8 +5,8 @@ import AddRecipe from "./AddRecipe";
 import Axios from "axios";
 
 export class RecipeListPage extends Component {
-  getRecipes() {
-    return Axios.get("/api/recipes");
+  getRecipes(page = 0) {
+    return Axios.get(`/api/recipes?page=${page}`);
   }
 
   childRender(data) {

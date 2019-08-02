@@ -10,6 +10,7 @@ export class InfiniteScroll extends Component {
     error: false,
     hasMore: true,
     isLoading: false,
+    page: 0,
     data: []
   };
 
@@ -29,12 +30,17 @@ export class InfiniteScroll extends Component {
   loadData() {
     this.setState({ isLoading: true }, () => {
       this.props
-        .getData()
+        .getData(this.state.page)
         .then(res => {
-          this.setState({
-            isLoading: false,
-            data: [...this.state.data, ...res.data]
-          });
+          if (res.data.length === 0) {
+            this.setState({ hasMore: false, isLoading: false });
+          } else {
+            this.setState((state, props) => ({
+              isLoading: false,
+              page: state.page + 1,
+              data: [...state.data, ...res.data]
+            }));
+          }
         })
         .catch(err => console.log(err));
     });
