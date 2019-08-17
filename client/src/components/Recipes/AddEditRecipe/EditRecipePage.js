@@ -14,11 +14,11 @@ export class EditRecipePage extends Component {
   };
 
   updateRecipe = async (recipe, file) => {
+    const data = new FormData();
     if (file) {
       delete recipe.pic;
+      data.append("pic", file);
     }
-    const data = new FormData();
-    data.append("pic", file);
 
     Object.keys(recipe).forEach(key => data.append(key, recipe[key]));
     try {
