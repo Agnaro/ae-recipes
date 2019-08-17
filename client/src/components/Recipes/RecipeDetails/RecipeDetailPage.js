@@ -29,6 +29,7 @@ export class RecipeDetailPage extends Component {
     const { recipe } = this.state;
     const ingr = String(recipe.ingr)
       .trim()
+      .replace(/\n\n/g, "\n")
       .split("\n");
     const instr = String(recipe.instr)
       .trim()
