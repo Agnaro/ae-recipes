@@ -39,6 +39,8 @@ router.get("/:id", (req, res) => {
     .catch(err => res.status(404).send("Recipe not found."));
 });
 
+router.all("*", passport.authenticate("jwt", { session: false }));
+
 router.post("/", upload.single("pic"), recipeVal.post, (req, res) => {
   const recServ = new recipeService.default(Recipe);
   const recipe = { ...req.body, pic: req.file ? req.file.path : "" };
