@@ -27,8 +27,13 @@ export class RecipeDetailPage extends Component {
 
   render() {
     const { recipe } = this.state;
-    const ingr = String(recipe.ingr).split("\n");
-    const instr = String(recipe.instr).split("\n\n");
+    const ingr = String(recipe.ingr)
+      .trim()
+      .split("\n");
+    const instr = String(recipe.instr)
+      .trim()
+      .replace(/\n\n/g, "\n")
+      .split("\n");
     return (
       <div className="page-box">
         <h2>{recipe.name}</h2>
