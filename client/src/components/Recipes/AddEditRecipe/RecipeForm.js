@@ -3,6 +3,7 @@ import { Redirect } from "react-router";
 import Thumbnail from "./Thumbnail";
 import PropTypes from "prop-types";
 import { server } from "../../../utils";
+import "./recipeForm.css";
 
 export class RecipeForm extends Component {
   static propTypes = {
