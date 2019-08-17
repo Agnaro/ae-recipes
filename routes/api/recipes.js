@@ -20,38 +20,47 @@ const storage = multer.diskStorage({
 
 var upload = multer({ storage: storage });
 
-router.get("/", (req, res) => {
+router.get("/", (req, res, next) => {
   const recServ = new recipeService.default(Recipe);
   const page = req.query.page || null;
 
   recServ
     .List(page)
     .then(recipes => res.status(200).json(recipes))
-    .catch(err => res.status(500).send("No recipes found."));
+    .catch(err => {
+      res.status(500).send("No recipes found.");
+      next(err);
+    });
 });
 
-router.get("/:id", (req, res) => {
+router.get("/:id", (req, res, next) => {
   const recServ = new recipeService.default(Recipe);
 
   recServ
     .FindById(req.params.id)
     .then(recipe => res.status(200).json(recipe))
-    .catch(err => res.status(404).send("Recipe not found."));
+    .catch(err => {
+      res.status(404).send("Recipe not found.");
+      next(err);
+    });
 });
 
 router.all("*", passport.authenticate("jwt", { session: false }));
 
-router.post("/", upload.single("pic"), recipeVal.post, (req, res) => {
+router.post("/", upload.single("pic"), recipeVal.post, (req, res, next) => {
   const recServ = new recipeService.default(Recipe);
   const recipe = { ...req.body, pic: req.file ? req.file.path : "" };
 
   recServ
     .Add(recipe)
     .then(rec => res.status(201).json(rec))
-    .catch(err => res.status(500).send("Could not create recipe."));
+    .catch(err => {
+      res.status(500).send("Could not create recipe.");
+      next(err);
+    });
 });
 
-router.put("/:id", upload.single("pic"), recipeVal.put, (req, res) => {
+router.put("/:id", upload.single("pic"), recipeVal.put, (req, res, next) => {
   const recServ = new recipeService.default(Recipe);
   const recipe = { ...req.body };
   if (req.file) {
@@ -63,7 +72,28 @@ router.put("/:id", upload.single("pic"), recipeVal.put, (req, res) => {
     .then(rec =>
       res.status(200).json({ id: req.params.id, msg: "Recipe updated." })
     )
-    .catch(err => res.status(500).json(err));
+    .catch(err => {
+      res.status(500).send("Could not update recipe");
+      next(err);
+    });
+});
+
+router.delete("/:id", (req, res, next) => {
+  const recServ = new recipeService.default(Recipe);
+
+  recServ
+    .Delete(req.params.id)
+    .then(res.status(200).send("Recipe deleted"))
+    .catch(err => {
+      res.status(500).status("Could not delete recipe");
+      next(err);
+    });
+});
+
+router.use((err, req, res, next) => {
+  console.log("Recipe router error:");
+  console.log(err);
+  //next(err);
 });
 
 module.exports = router;

@@ -74,15 +74,21 @@ export default class recipeService {
       await query.updateOne(recipe);
       return true;
     } catch (error) {
-      console.log(error);
       throw new Error(error);
     }
   }
 
-  Delete(id) {
-    this.FindById(id)
-      .then(rec => rec.remove())
-      .then(resolve())
-      .catch(err => reject(err));
+  async Delete(id) {
+    try {
+      const query = this.Recipe.findById(id);
+      const dbRecipe = await query.exec();
+      if (dbRecipe.pic !== "") {
+        await this.deleteFile(dbRecipe.pic);
+      }
+      await query.remove();
+      return true;
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 }
