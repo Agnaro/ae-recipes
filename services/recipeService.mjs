@@ -1,7 +1,27 @@
+import * as fs from "fs";
+import * as path from "path";
+
 export default class recipeService {
   constructor(RecipeModel) {
     this.Recipe = RecipeModel;
     this.perPage = 20;
+  }
+
+  deleteFile(relFilePath) {
+    return new Promise((resolve, reject) => {
+      const __dirname = path.resolve();
+      const fullpath = path.resolve(__dirname, relFilePath);
+      fs.unlink(fullpath, err => {
+        if (err) {
+          if ((err.errno = -4058)) {
+            resolve();
+          }
+          reject(err);
+        } else {
+          resolve();
+        }
+      });
+    });
   }
 
   Add(recipe) {
@@ -40,10 +60,23 @@ export default class recipeService {
     });
   }
 
-  Update(id, recipe) {
-    this.Recipe.findByIdAndUpdate(id, recipe, { new: true })
-      .then(rec => resolve(rec))
-      .catch(err => reject(err));
+  async Update(id, recipe) {
+    try {
+      const query = this.Recipe.findById(id);
+      if (recipe.pic) {
+        const dbRecipe = await query.exec();
+        if (dbRecipe.pic !== "") {
+          //need to delete old pic
+          await this.deleteFile(dbRecipe.pic);
+        }
+      }
+      //update text fields
+      await query.updateOne(recipe);
+      return true;
+    } catch (error) {
+      console.log(error);
+      throw new Error(error);
+    }
   }
 
   Delete(id) {

@@ -14,16 +14,26 @@ const mockResponse = () => {
 };
 
 describe("The recipe validator", () => {
-  it("should respond with 400 if name is not sent", async () => {
-    const req = mockRequest({});
-    const res = mockResponse();
-    await recipeVal(req, res, () => {});
-    expect(res.status).toHaveBeenCalledWith(400);
+  describe("the post validator", () => {
+    it("should respond with 400 if name is not sent", async () => {
+      const req = mockRequest({});
+      const res = mockResponse();
+      await recipeVal.post(req, res, () => {});
+      expect(res.status).toHaveBeenCalledWith(400);
+    });
+    it("should respond with 400 if there are properties outside of the schema", async () => {
+      const req = mockRequest({ name: "name", field: 123 });
+      const res = mockResponse();
+      await recipeVal.post(req, res, () => {});
+      expect(res.status).toHaveBeenCalledWith(400);
+    });
   });
-  it("should respond with 400 if there are properties outside of the schema", async () => {
-    const req = mockRequest({ name: "name", field: 123 });
-    const res = mockResponse();
-    await recipeVal(req, res, () => {});
-    expect(res.status).toHaveBeenCalledWith(400);
+  describe("the put validator", () => {
+    it("should respond with 400 if there are properties outside of the schema", async () => {
+      const req = mockRequest({ name: "name", field: 123 });
+      const res = mockResponse();
+      await recipeVal.put(req, res, () => {});
+      expect(res.status).toHaveBeenCalledWith(400);
+    });
   });
 });

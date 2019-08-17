@@ -39,14 +39,29 @@ router.get("/:id", (req, res) => {
     .catch(err => res.status(404).send("Recipe not found."));
 });
 
-router.post("/", upload.single("pic"), recipeVal, (req, res) => {
+router.post("/", upload.single("pic"), recipeVal.post, (req, res) => {
   const recServ = new recipeService.default(Recipe);
   const recipe = { ...req.body, pic: req.file ? req.file.path : "" };
 
   recServ
     .Add(recipe)
     .then(rec => res.status(201).json(rec))
-    .catch(err => res.status(500).send("Could not add recipe."));
+    .catch(err => res.status(500).send("Could not create recipe."));
+});
+
+router.put("/:id", upload.single("pic"), recipeVal.put, (req, res) => {
+  const recServ = new recipeService.default(Recipe);
+  const recipe = { ...req.body };
+  if (req.file) {
+    recipe.pic = req.file.path;
+  }
+
+  recServ
+    .Update(req.params.id, recipe)
+    .then(rec =>
+      res.status(200).json({ id: req.params.id, msg: "Recipe updated." })
+    )
+    .catch(err => res.status(500).json(err));
 });
 
 module.exports = router;

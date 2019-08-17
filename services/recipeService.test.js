@@ -5,9 +5,19 @@ const RECIPES = ["123", "456"];
 
 const mockRecipe = (recipes = RECIPES) => {
   const recipe = {};
-  recipe.find = jest.fn(() => Promise.resolve(RECIPES));
+  const query = mockQuery(recipes);
+  recipe.query = query;
+  recipe.find = jest.fn(() => query);
   recipe.findById = jest.fn(() => Promise.resolve());
   return recipe;
+};
+
+const mockQuery = returnVal => {
+  var query = {};
+  query.limit = jest.fn().mockReturnValue(query);
+  query.skip = jest.fn().mockReturnValue(query);
+  query.then = jest.fn(cb => Promise.resolve(cb(returnVal)));
+  return query;
 };
 
 const mockRecipeErr = () => {
@@ -38,7 +48,9 @@ describe("The recipe service", () => {
       const mock = mockRecipe();
       const r = new recipeService.default(mock);
       await r.List(1);
-      expect(mock.find).toHaveBeenCalledWith(null, null, { limit: 1 });
+      expect(mock.find).toHaveBeenCalled();
+      expect(mock.query.limit).toHaveBeenCalled();
+      expect(mock.query.skip).toHaveBeenCalled();
     });
   });
   describe("the FindById function", () => {

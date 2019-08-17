@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { server } from "../../../utils";
 import Axios from "axios";
+import { Link } from "react-router-dom";
 import "./recipeDetails.css";
 
 export class RecipeDetailPage extends Component {
@@ -12,16 +13,16 @@ export class RecipeDetailPage extends Component {
     return this.props.match.params.id;
   }
 
-  getRecipe() {
-    Axios.get("/api/recipes/" + this.id).then(res => {
+  getRecipe(id) {
+    Axios.get("/api/recipes/" + id).then(res => {
       this.setState({
         recipe: res.data
       });
     });
   }
 
-  componentWillMount() {
-    this.getRecipe();
+  componentDidMount() {
+    this.getRecipe(this.id);
   }
 
   render() {
@@ -52,6 +53,8 @@ export class RecipeDetailPage extends Component {
             <li key={index}>{item}</li>
           ))}
         </ol>
+
+        <Link to={`/recipes/edit/${this.id}`}>Edit</Link>
       </div>
     );
   }
