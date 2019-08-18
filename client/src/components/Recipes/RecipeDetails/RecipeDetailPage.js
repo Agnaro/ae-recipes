@@ -2,9 +2,20 @@ import React, { Component } from "react";
 import { server } from "../../../utils";
 import Axios from "axios";
 import { Link } from "react-router-dom";
+import RecipeDelete from "./Delete/RecipeDelete";
+import PropTypes from "prop-types";
 import "./recipeDetails.css";
 
 export class RecipeDetailPage extends Component {
+  static propTypes = {
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.string.isRequired
+      })
+    }),
+    history: PropTypes.object.isRequired
+  };
+
   state = {
     recipe: {}
   };
@@ -20,6 +31,15 @@ export class RecipeDetailPage extends Component {
       });
     });
   }
+
+  handleDelete = async id => {
+    try {
+      await Axios.delete("/api/recipes/" + id);
+      this.props.history.push("/recipes/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   componentDidMount() {
     this.getRecipe(this.id);
@@ -45,22 +65,20 @@ export class RecipeDetailPage extends Component {
         />
         <a href={recipe.link}>Source</a>
         <p>{recipe.desc}</p>
-
         <h3>Ingredients</h3>
         <ul className="ingr-list">
           {ingr.map((item, index) => (
             <li key={index}>{item}</li>
           ))}
         </ul>
-
         <h3>Instructions</h3>
         <ol className="instr">
           {instr.map((item, index) => (
             <li key={index}>{item}</li>
           ))}
         </ol>
-
-        <Link to={`/recipes/edit/${this.id}`}>Edit</Link>
+        <Link to={`/recipes/edit/${this.id}`}>Edit</Link>|
+        <RecipeDelete id={this.id} deleteHandler={this.handleDelete} />
       </div>
     );
   }

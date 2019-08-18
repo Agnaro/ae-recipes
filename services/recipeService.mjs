@@ -85,7 +85,7 @@ export default class recipeService {
       if (dbRecipe.pic !== "") {
         await this.deleteFile(dbRecipe.pic);
       }
-      await query.remove();
+      await query.deleteOne();
       return true;
     } catch (error) {
       throw new Error(error);
