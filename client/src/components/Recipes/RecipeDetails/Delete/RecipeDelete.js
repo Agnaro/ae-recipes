@@ -25,7 +25,7 @@ export class RecipeDelete extends Component {
 
   render() {
     return (
-      <React.Fragment>
+      <React.div>
         <Button color="link" onClick={this.toggle}>
           Delete
         </Button>
@@ -38,7 +38,7 @@ export class RecipeDelete extends Component {
             </Button>
           </ModalBody>
         </Modal>
-      </React.Fragment>
+      </React.div>
     );
   }
 }

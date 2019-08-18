@@ -24,17 +24,16 @@
   cursor: pointer;
 }
 
-.recipe-img {
-  max-height: 400px;
-  height: auto;
-  width: auto;
-}
-
-.nav-bar {
-  margin-bottom: 1rem;
-}
-
 .site-container {
   margin-left: 2rem;
   margin-right: 2rem;
+  padding-bottom: 1rem;
+  background-color: #f3f3f377;
+}
+
+@media screen and (max-width: 500px) {
+  .site-container {
+    margin-left: 0px;
+    margin-right: 0px;
+  }
 }

@@ -23,7 +23,7 @@ export default class Navigation extends React.Component {
       <div className="nav-bar">
         <Navbar color="dark" dark expand="md">
           <Link to="/" className="navbar-brand">
-            Meal Planning
+            AE-Recipes
           </Link>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>

@@ -1,12 +1,15 @@
 import React, { Component } from "react";
 import { server } from "../../../utils";
 import Axios from "axios";
-import { Link } from "react-router-dom";
-import RecipeDelete from "./Delete/RecipeDelete";
 import PropTypes from "prop-types";
 import "./recipeDetails.css";
 
-export class RecipeDetailPage extends Component {
+import Menu from "./Menu/Menu";
+import Rating from "./Rating/Rating";
+import Source from "./Source/Source";
+import Tags from "./Tags/Tags";
+
+class RecipeDetailPage extends Component {
   static propTypes = {
     match: PropTypes.shape({
       params: PropTypes.shape({
@@ -17,7 +20,8 @@ export class RecipeDetailPage extends Component {
   };
 
   state = {
-    recipe: {}
+    recipe: {},
+    loading: true
   };
 
   get id() {
@@ -27,7 +31,8 @@ export class RecipeDetailPage extends Component {
   getRecipe(id) {
     Axios.get("/api/recipes/" + id).then(res => {
       this.setState({
-        recipe: res.data
+        recipe: res.data,
+        loading: false
       });
     });
   }
@@ -41,12 +46,15 @@ export class RecipeDetailPage extends Component {
     }
   };
 
-  componentDidMount() {
-    this.getRecipe(this.id);
-  }
+  renderLoading = () => {
+    return (
+      <div className="page-box">
+        <h1>Loading...</h1>
+      </div>
+    );
+  };
 
-  render() {
-    const { recipe } = this.state;
+  renderPage = recipe => {
     const ingr = String(recipe.ingr)
       .trim()
       .replace(/\n\n/g, "\n")
@@ -55,32 +63,54 @@ export class RecipeDetailPage extends Component {
       .trim()
       .replace(/\n\n/g, "\n")
       .split("\n");
+
     return (
-      <div className="page-box">
-        <h2>{recipe.name}</h2>
+      <div className="recipe-page-box">
+        <div className="name">
+          <div className="name-box">
+            <h2>{recipe.name}</h2>
+            <Rating />
+          </div>
+          <Menu />
+        </div>
         <img
           src={server + recipe.pic}
           alt="Prepared Meal"
           className="detail-img"
         />
-        <a href={recipe.link}>Source</a>
-        <p>{recipe.desc}</p>
-        <h3>Ingredients</h3>
-        <ul className="ingr-list">
-          {ingr.map((item, index) => (
-            <li key={index}>{item}</li>
-          ))}
-        </ul>
-        <h3>Instructions</h3>
-        <ol className="instr">
-          {instr.map((item, index) => (
-            <li key={index}>{item}</li>
-          ))}
-        </ol>
-        <Link to={`/recipes/edit/${this.id}`}>Edit</Link>|
-        <RecipeDelete id={this.id} deleteHandler={this.handleDelete} />
+        <p className="desc">{recipe.desc}</p>
+        <Tags />
+        <Source url={recipe.link} />
+        <div className="ingr">
+          <h3>Ingredients</h3>
+          <ul>
+            {ingr.map((item, index) => (
+              <li key={index}>{item}</li>
+            ))}
+          </ul>
+        </div>
+        <div className="instr">
+          <h3>Instructions</h3>
+          <ol>
+            {instr.map((item, index) => (
+              <li key={index}>{item}</li>
+            ))}
+          </ol>
+        </div>
       </div>
     );
+  };
+
+  componentDidMount() {
+    this.getRecipe(this.id);
+  }
+
+  render() {
+    if (this.state.loading) {
+      return this.renderLoading();
+    } else {
+      return this.renderPage(this.state.recipe);
+    }
   }
 }
 export default RecipeDetailPage;

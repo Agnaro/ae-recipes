@@ -3,6 +3,7 @@ import MealList from "./MealList";
 import MealAdd from "./MealAdd";
 import { connect } from "react-redux";
 import { getMeals, addMeal } from "../../actions/meal_actions/mealActions";
+import "./meal.css";
 
 export class MealsPage extends Component {
   componentDidMount() {
@@ -16,7 +17,7 @@ export class MealsPage extends Component {
   render() {
     const { meals } = this.props.meal;
     return (
-      <div>
+      <div className="meal-page-box">
         <MealList meals={meals} />
         <MealAdd />
       </div>

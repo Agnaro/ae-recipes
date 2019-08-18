@@ -19,6 +19,10 @@
   color: black;
 }
 
+.recipe-img {
+  height: auto;
+  width: auto;
+}
 .recipe-card a:hover {
   text-decoration: none;
 }
@@ -44,12 +48,4 @@
   border: black solid 1px;
   background-color: lightblue;
   color: black;
-}
-
-.detail-img {
-  max-width: 1000px;
-  max-height: 400px;
-  display: block;
-  margin: auto;
-  margin-top: 1rem;
 }
