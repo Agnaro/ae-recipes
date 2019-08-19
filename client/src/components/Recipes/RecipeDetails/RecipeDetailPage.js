@@ -3,6 +3,7 @@ import { server } from "../../../utils";
 import Axios from "axios";
 import PropTypes from "prop-types";
 import "./recipeDetails.css";
+import { Spinner } from "reactstrap";
 
 import Menu from "./Menu/Menu";
 import Rating from "./Rating/Rating";
@@ -48,8 +49,8 @@ class RecipeDetailPage extends Component {
 
   renderLoading = () => {
     return (
-      <div className="page-box">
-        <h1>Loading...</h1>
+      <div>
+        <Spinner color="dark" />
       </div>
     );
   };
