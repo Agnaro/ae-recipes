@@ -12,14 +12,26 @@ import {
 } from "reactstrap";
 
 export class Menu extends Component {
-  static propTypes = {};
-
-  state = {
-    btnDropleft: false
+  static propTypes = {
+    id: PropTypes.string.isRequired,
+    handleDelete: PropTypes.func.isRequired
   };
 
-  toggle = () => {
-    return this.setState({ btnDropleft: !this.state.btnDropleft });
+  state = {
+    isOpenDropdown: false,
+    isOpenModal: false
+  };
+
+  toggleDropdown = () => {
+    this.setState(prevState => {
+      return { isOpenDropdown: !prevState.isOpenDropdown };
+    });
+  };
+
+  toggleModal = () => {
+    this.setState(prevState => {
+      return { isOpenModal: !prevState.isOpenModal };
+    });
   };
 
   render() {
@@ -27,20 +39,24 @@ export class Menu extends Component {
       <div className="menu">
         <Dropdown
           direction="left"
-          isOpen={this.state.btnDropleft}
-          toggle={this.toggle}
+          isOpen={this.state.isOpenDropdown}
+          toggle={this.toggleDropdown}
         >
           <DropdownToggle caret />
           <DropdownMenu>
-            <DropdownItem>Edit</DropdownItem>
-            <DropdownItem>Delete</DropdownItem>
+            <Link to={`/recipes/edit/${this.props.id}`}>
+              <DropdownItem>Edit</DropdownItem>
+            </Link>
+            <RecipeDelete
+              id={this.props.id}
+              deleteHandler={this.props.handleDelete}
+              isOpen={this.state.isOpenModal}
+              toggle={this.toggleModal}
+            />
           </DropdownMenu>
         </Dropdown>
       </div>
     );
-
-    //<Link to={`/recipes/edit/${this.id}`}>Edit</Link> |
-    //<RecipeDelete id={this.id} deleteHandler={this.handleDelete} />;
   }
 }
 

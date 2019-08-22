@@ -3,7 +3,11 @@ import PropTypes from "prop-types";
 
 export class Source extends Component {
   static propTypes = {
-    url: PropTypes.string.isRequired
+    url: PropTypes.string
+  };
+
+  static defaultProps = {
+    url: ""
   };
 
   getDomain = url => {

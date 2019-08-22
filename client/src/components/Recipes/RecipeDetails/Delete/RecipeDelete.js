@@ -1,21 +1,19 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Button, Modal, ModalBody, ModalHeader } from "reactstrap";
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalHeader,
+  DropdownItem
+} from "reactstrap";
 
 export class RecipeDelete extends Component {
   static propTypes = {
     id: PropTypes.string.isRequired,
-    deleteHandler: PropTypes.func.isRequired
-  };
-
-  state = {
-    modal: false
-  };
-
-  toggle = () => {
-    this.setState(prevState => ({
-      modal: !prevState.modal
-    }));
+    deleteHandler: PropTypes.func.isRequired,
+    toggle: PropTypes.func.isRequired,
+    isOpen: PropTypes.bool.isRequired
   };
 
   buttonHandler = evt => {
@@ -25,11 +23,9 @@ export class RecipeDelete extends Component {
 
   render() {
     return (
-      <React.div>
-        <Button color="link" onClick={this.toggle}>
-          Delete
-        </Button>
-        <Modal isOpen={this.state.modal} toggle={this.toggle}>
+      <React.Fragment>
+        <DropdownItem onClick={this.props.toggle}>Delete</DropdownItem>
+        <Modal isOpen={this.props.isOpen} toggle={this.props.toggle}>
           <ModalHeader>Delete Recipe</ModalHeader>
           <ModalBody>
             <p>Are you sure you want to delete this recipe?</p>
@@ -38,7 +34,7 @@ export class RecipeDelete extends Component {
             </Button>
           </ModalBody>
         </Modal>
-      </React.div>
+      </React.Fragment>
     );
   }
 }

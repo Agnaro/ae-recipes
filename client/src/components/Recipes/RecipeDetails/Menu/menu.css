@@ -1,0 +1,7 @@
+.dropdown a {
+  color: #212529;
+}
+
+.dropdown a:hover {
+  text-decoration: none;
+}

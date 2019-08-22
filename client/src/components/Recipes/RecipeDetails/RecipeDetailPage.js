@@ -72,7 +72,7 @@ class RecipeDetailPage extends Component {
             <h2>{recipe.name}</h2>
             <Rating />
           </div>
-          <Menu />
+          <Menu id={this.id} handleDelete={this.handleDelete} />
         </div>
         <img
           src={server + recipe.pic}
