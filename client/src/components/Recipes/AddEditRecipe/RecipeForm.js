@@ -3,11 +3,14 @@ import { Redirect } from "react-router";
 import Thumbnail from "./Thumbnail";
 import PropTypes from "prop-types";
 import { server } from "../../../utils";
+import className from "classnames";
+import { checkName, checkDesc, checkAll } from "./recipe.validation";
 import "./recipeForm.css";
 
 export class RecipeForm extends Component {
   static propTypes = {
-    submitHandler: PropTypes.func.isRequired
+    submitHandler: PropTypes.func.isRequired,
+    getOriginalRecipe: PropTypes.oneOfType([PropTypes.func, PropTypes.bool])
   };
 
   static defaultProps = {
@@ -15,7 +18,13 @@ export class RecipeForm extends Component {
   };
 
   state = {
-    recipe: {},
+    recipe: {
+      name: "",
+      desc: "",
+      ingr: "",
+      instr: "",
+      link: ""
+    },
     pic: null,
     redirect: false,
     originalReceived: false
@@ -46,15 +55,22 @@ export class RecipeForm extends Component {
     this.setState({ pic: this.fileUrl });
   };
 
+  imageBtnOnClick = () => {
+    document.querySelector("#pic").dispatchEvent(new MouseEvent("click"));
+  };
+
   submit = async evt => {
     evt.preventDefault();
     const file = this.fileInput.current.files[0];
+    this.name = this.state.recipe.name; //run recipe name through the setter to make sure validation is done
     const { recipe } = this.state;
-    try {
-      await this.props.submitHandler(recipe, file);
-      this.setState({ redirect: true });
-    } catch (error) {
-      console.log(error);
+    if (checkAll(recipe)) {
+      try {
+        await this.props.submitHandler(recipe, file);
+        this.setState({ redirect: true });
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -74,79 +90,102 @@ export class RecipeForm extends Component {
   render() {
     const recipe = this.state.recipe;
 
+    var nameInputClass = className({
+      "input-invalid": !checkName(this.state.recipe.name)
+    });
+
+    var descInputClass = className({
+      "input-invalid": !checkDesc(this.state.recipe.desc)
+    });
+
     if (this.state.redirect) {
       return <Redirect to="/recipes" />;
     } else {
       return (
-        <div>
-          <form>
-            <div>
-              <label htmlFor="name">Name</label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={recipe.name || ""}
-                onChange={this.changeHandler}
-              />
-            </div>
+        <div className="recipe-form">
+          <div className="name">
+            <label htmlFor="name">Name</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={recipe.name}
+              onChange={this.changeHandler}
+              className={nameInputClass}
+            />
+          </div>
 
-            <div>
-              <label htmlFor="desc">Description</label>
-              <textarea
-                id="desc"
-                name="desc"
-                value={recipe.desc || ""}
-                onChange={this.changeHandler}
-              />
-            </div>
+          <div className="desc">
+            <label htmlFor="desc">
+              Description <small>(200 character max)</small>
+            </label>
+            <textarea
+              id="desc"
+              name="desc"
+              value={recipe.desc}
+              onChange={this.changeHandler}
+              className={descInputClass}
+            />
+          </div>
 
-            <div>
-              <label htmlFor="ingr">Ingredients</label>
-              <textarea
-                id="ingr"
-                name="ingr"
-                value={recipe.ingr || ""}
-                onChange={this.changeHandler}
-              />
-            </div>
+          <div className="ingr">
+            <label htmlFor="ingr">Ingredients</label>
+            <textarea
+              id="ingr"
+              name="ingr"
+              value={recipe.ingr}
+              onChange={this.changeHandler}
+            />
+          </div>
 
-            <div>
-              <label htmlFor="instr">Instructions</label>
-              <textarea
-                id="instr"
-                name="instr"
-                value={recipe.instr || ""}
-                onChange={this.changeHandler}
-              />
-            </div>
+          <div className="instr">
+            <label htmlFor="instr">Instructions</label>
+            <textarea
+              id="instr"
+              name="instr"
+              value={recipe.instr}
+              onChange={this.changeHandler}
+            />
+          </div>
 
-            <div>
-              <label htmlFor="pic">Upload Picture</label>
-              <input
-                type="file"
-                id="pic"
-                name="pic"
-                accept="image/*"
-                ref={this.fileInput}
-                onChange={this.fileOnChange}
-              />
+          <div className="pic">
+            <label>Image</label>
+            <div className="btn btn-dark" onClick={this.imageBtnOnClick}>
+              Upload
             </div>
-            <Thumbnail url={this.state.pic} />
+            <input
+              type="file"
+              id="pic"
+              name="pic"
+              accept="image/*"
+              ref={this.fileInput}
+              onChange={this.fileOnChange}
+            />
+            <Thumbnail
+              url={this.state.pic}
+              className="thumbnail"
+              placeholder={<div className="thumbnail-placeholder">Preview</div>}
+            />
+          </div>
 
-            <div>
-              <label htmlFor="link">Source</label>
-              <input
-                type="url"
-                id="link"
-                name="link"
-                value={recipe.link || ""}
-                onChange={this.changeHandler}
-              />
-            </div>
+          <div className="link">
+            <label htmlFor="link">Source</label>
+            <input
+              type="url"
+              id="link"
+              name="link"
+              placeholder="https://"
+              value={recipe.link}
+              onChange={this.changeHandler}
+            />
+          </div>
 
-            <input type="button" value="Submit" onClick={this.submit} />
-          </form>
+          <input
+            type="button"
+            value="Save"
+            onClick={this.submit}
+            className="submit-btn btn btn-dark"
+          />
         </div>
       );
     }

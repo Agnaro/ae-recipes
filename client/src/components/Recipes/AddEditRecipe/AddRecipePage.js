@@ -18,7 +18,7 @@ export class AddRecipePage extends Component {
 
   render() {
     return (
-      <div>
+      <div className="recipe-form-container">
         <h3>Add Recipe</h3>
         <RecipeForm submitHandler={this.postRecipe} />
       </div>

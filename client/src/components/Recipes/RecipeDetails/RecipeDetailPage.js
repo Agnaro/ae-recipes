@@ -66,7 +66,7 @@ class RecipeDetailPage extends Component {
       .split("\n");
 
     return (
-      <div className="recipe-page-box">
+      <div className="recipe-page-box recipe-page">
         <div className="name">
           <div className="name-box">
             <h2>{recipe.name}</h2>

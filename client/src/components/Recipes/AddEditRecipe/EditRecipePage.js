@@ -31,7 +31,7 @@ export class EditRecipePage extends Component {
 
   render() {
     return (
-      <div>
+      <div className="recipe-form-container">
         <h3>Edit Recipe</h3>
         <RecipeForm
           getOriginalRecipe={this.getRecipe}

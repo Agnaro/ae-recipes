@@ -1,4 +1,132 @@
-textarea {
-  width: 800px;
-  height: 200px;
+.recipe-form-container {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.5rem;
+}
+
+.recipe-form {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: stretch;
+}
+
+.recipe-form label {
+  font-size: small;
+  display: block;
+  margin-bottom: 0px;
+}
+
+.recipe-form input {
+  margin-bottom: 1rem;
+  border-radius: 5px;
+  border: 1px solid rgb(169, 169, 169);
+  padding: 2px;
+}
+
+.recipe-form textarea {
+  margin-bottom: 1rem;
+  border-radius: 5px;
+  border-style: solid;
+  padding: 2px;
+  border-image: none;
+  resize: none;
+}
+
+.recipe-form .name {
+  order: 1;
+  flex-basis: 100%;
+}
+
+.recipe-form .name input {
+  font-size: x-large;
+  width: 75%;
+  vertical-align: middle;
+}
+
+.recipe-form .pic {
+  order: 2;
+  flex-basis: 50%;
+}
+
+.recipe-form .btn-dark {
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.recipe-form .pic input[type="file"] {
+  display: none;
+}
+
+.recipe-form .thumbnail {
+  order: 3;
+  display: inline-block;
+}
+
+.recipe-form .thumbnail img {
+  max-width: 120px;
+  max-height: 120px;
+  margin: 5px;
+}
+
+.recipe-form .thumbnail-placeholder {
+  display: inline-block;
+  padding: 48px 33px 48px 33px;
+  text-align: center;
+  vertical-align: middle;
+  border: 1px solid black;
+  margin: 5px;
+}
+
+.recipe-form .link {
+  order: 4;
+  flex-basis: 50%;
+}
+
+.recipe-form .link input {
+  width: 85%;
+  font-size: small;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.recipe-form .desc {
+  order: 5;
+  flex-basis: 97.5%;
+  margin-top: 1rem;
+}
+
+.recipe-form .desc textarea {
+  width: 100%;
+}
+
+.recipe-form .ingr {
+  order: 6;
+  flex-basis: 50%;
+}
+
+.recipe-form .ingr textarea {
+  width: 95%;
+  height: 300px;
+  font-size: small;
+}
+
+.recipe-form .instr {
+  order: 7;
+  flex-basis: 50%;
+}
+
+.recipe-form .instr textarea {
+  width: 95%;
+  height: 300px;
+  font-size: small;
+}
+
+.recipe-form .submit-btn {
+  order: 8;
+  flex-basis: 97.5%;
+}
+
+.recipe-form input.input-invalid {
+  border: 2px solid crimson;
 }
