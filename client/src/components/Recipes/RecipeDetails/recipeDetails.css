@@ -4,17 +4,19 @@
   align-self: auto;
   margin: auto;
   display: grid;
-  grid-template-columns: 25% 25% 25% 25%;
+  grid-template-columns: 1fr 1fr 2fr;
   grid-gap: 5px;
   background-color: white;
   justify-content: center;
   padding: 8px 15px 0px 15px;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 800px) {
   .recipe-page-box {
-    width: 100%;
-    margin: 0px 8px 0px 8px;
+    width: 95%;
+    margin: 0px auto;
+    padding: 8px 8px 0px 8px;
+    grid-template-columns: 1fr 1fr;
   }
 }
 
