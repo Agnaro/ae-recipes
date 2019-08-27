@@ -10,15 +10,11 @@ export class Source extends Component {
     url: ""
   };
 
-  getDomain = url => {
-    const domain = String(url).slice(11, 20);
-    return domain;
-  };
-
   render() {
+    const url = new URL(this.props.url);
     return (
       <div className="source-link">
-        Source: <a href={this.props.url}>{this.getDomain(this.props.url)}</a>
+        Source: <a href={url.href}>{url.hostname}</a>
       </div>
     );
   }
