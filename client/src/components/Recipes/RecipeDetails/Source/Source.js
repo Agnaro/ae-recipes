@@ -7,7 +7,7 @@ export class Source extends Component {
   };
 
   static defaultProps = {
-    url: ""
+    url: "#"
   };
 
   render() {
