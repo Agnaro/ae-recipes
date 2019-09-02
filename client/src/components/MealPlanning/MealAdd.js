@@ -32,13 +32,23 @@ export class MealAdd extends Component {
     evt.preventDefault();
 
     this.props.addMeal(this.state.meal);
-
+    this.resetForm();
     this.toggle();
   };
 
   changeHandler = evt => {
     this.setState({
       meal: { ...this.state.meal, [evt.target.name]: evt.target.value }
+    });
+  };
+
+  resetForm = () => {
+    this.setState({
+      meal: {
+        day: "Sunday",
+        type: "Dinner",
+        name: ""
+      }
     });
   };
 
@@ -60,6 +70,7 @@ export class MealAdd extends Component {
                   name="day"
                   id="day"
                   onChange={this.changeHandler}
+                  value={this.state.meal.day}
                 >
                   <option>Sunday</option>
                   <option>Monday</option>
@@ -78,6 +89,7 @@ export class MealAdd extends Component {
                   id="type"
                   defaultValue="Dinner"
                   onChange={this.changeHandler}
+                  value={this.state.meal.type}
                 >
                   <option>Breakfast</option>
                   <option>Lunch</option>
@@ -91,6 +103,7 @@ export class MealAdd extends Component {
                   type="text"
                   name="name"
                   id="name"
+                  value={this.state.meal.name}
                   onChange={this.changeHandler}
                 />
               </FormGroup>
