@@ -22,7 +22,8 @@ class RecipeDetailPage extends Component {
 
   state = {
     recipe: {},
-    loading: true
+    loading: true,
+    rating: 0
   };
 
   get id() {
@@ -30,13 +31,32 @@ class RecipeDetailPage extends Component {
   }
 
   getRecipe(id) {
-    Axios.get("/api/recipes/" + id).then(res => {
-      this.setState({
-        recipe: res.data,
-        loading: false
-      });
-    });
+    Axios.get("/api/recipes/" + id)
+      .then(res => {
+        console.log(res.data);
+        this.setState({
+          recipe: res.data,
+          loading: false,
+          rating: res.data.rating
+        });
+      })
+      .catch(err => console.log(err));
   }
+
+  handleRating = async value => {
+    try {
+      const data = {
+        rating: value
+      };
+      const result = await Axios.post(
+        "/api/recipes/" + this.id + "/rate/",
+        data
+      );
+      this.setState({ rating: result.data.rating });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   handleDelete = async id => {
     try {
@@ -70,7 +90,10 @@ class RecipeDetailPage extends Component {
         <div className="name">
           <div className="name-box">
             <h2>{recipe.name}</h2>
-            <Rating />
+            <Rating
+              rating={this.state.rating}
+              ratingChange={this.handleRating}
+            />
           </div>
           <Menu id={this.id} handleDelete={this.handleDelete} />
         </div>
@@ -114,4 +137,5 @@ class RecipeDetailPage extends Component {
     }
   }
 }
+
 export default RecipeDetailPage;

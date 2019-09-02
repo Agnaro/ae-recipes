@@ -5,6 +5,8 @@ const Recipe = require("../../models/Recipe");
 const passport = require("passport");
 const multer = require("multer");
 const recipeVal = require("../../validators/recipeValidator");
+const ratingRoutes = require("./recipeRating/rating");
+const userMiddleware = require("../../middleware/user.middleware");
 
 const recipeService = esmImport("../../services/recipeService.mjs");
 
@@ -33,8 +35,8 @@ router.get("/", (req, res, next) => {
     });
 });
 
-router.get("/:id", (req, res, next) => {
-  const recServ = new recipeService.default(Recipe);
+router.get("/:id", userMiddleware.getUserData, (req, res, next) => {
+  const recServ = new recipeService.default(Recipe, req.user);
 
   recServ
     .FindById(req.params.id)
@@ -89,6 +91,8 @@ router.delete("/:id", (req, res, next) => {
       next(err);
     });
 });
+
+router.use("/", ratingRoutes);
 
 router.use((err, req, res, next) => {
   console.log("Recipe router error:");

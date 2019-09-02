@@ -20,7 +20,14 @@ const RecipeSchema = new mongoose.Schema({
   },
   link: {
     type: String
-  }
+  },
+  ratings: [
+    {
+      userId: String,
+      rating: Number,
+      _id: false
+    }
+  ]
 });
 
 module.exports = Recipe = mongoose.model("recipes", RecipeSchema);

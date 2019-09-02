@@ -2,9 +2,10 @@ import * as fs from "fs";
 import * as path from "path";
 
 export default class recipeService {
-  constructor(RecipeModel) {
+  constructor(RecipeModel, user = null) {
     this.Recipe = RecipeModel;
     this.perPage = 20;
+    this.userId = user ? user.id : null;
   }
 
   deleteFile(relFilePath) {
@@ -47,9 +48,33 @@ export default class recipeService {
   FindById(id) {
     return new Promise((resolve, reject) => {
       this.Recipe.findById(id)
-        .then(rec => resolve(rec))
+        .then(rec => {
+          const recipeObj = rec.toObject();
+          const recipeWithoutRatings = Object.assign({}, recipeObj);
+          delete recipeWithoutRatings.ratings;
+          if (this.userId) {
+            const rating = this.getRatingFromArray(
+              recipeObj.ratings,
+              this.userId
+            );
+            return resolve(Object.assign(recipeWithoutRatings, { rating }));
+          } else {
+            return resolve(recipeWithoutRatings);
+          }
+        })
         .catch(err => reject(err));
     });
+  }
+
+  getRatingFromArray(ratings, userId) {
+    if (ratings) {
+      const ratingObj = ratings.find(el => el.userId === userId) || {
+        rating: 0
+      };
+      return ratingObj.rating;
+    } else {
+      return 0;
+    }
   }
 
   FindByName(name) {
@@ -90,5 +115,44 @@ export default class recipeService {
     } catch (error) {
       throw new Error(error);
     }
+  }
+
+  async Rate(recipeId, userId, rating) {
+    try {
+      let result;
+      if (await this.userHasPreviouslyRated(recipeId, userId)) {
+        result = await this.updateRating(recipeId, userId, rating);
+      } else {
+        result = await this.insertRating(recipeId, userId, rating);
+      }
+      return { userId, rating };
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async userHasPreviouslyRated(recipeId, userId) {
+    const result = await this.Recipe.find({
+      _id: recipeId,
+      "ratings.userId": userId
+    }).exec();
+    return result.length !== 0;
+  }
+
+  async insertRating(recipeId, userId, rating) {
+    return await this.Recipe.findById(recipeId).updateOne(
+      {},
+      { $addToSet: { ratings: { userId: userId, rating: rating } } }
+    );
+  }
+
+  async updateRating(recipeId, userId, rating) {
+    return await this.Recipe.findById(recipeId).updateOne(
+      {},
+      {
+        $set: { "ratings.$[elem].rating": rating }
+      },
+      { arrayFilters: [{ "elem.userId": userId }] }
+    );
   }
 }
