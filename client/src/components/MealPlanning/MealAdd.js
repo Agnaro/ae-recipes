@@ -62,7 +62,7 @@ export class MealAdd extends Component {
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle}>Add Meal</ModalHeader>
           <ModalBody>
-            <Form>
+            <Form onSubmit={this.submitMeal}>
               <FormGroup>
                 <Label for="day">Day</Label>
                 <Input
@@ -107,7 +107,7 @@ export class MealAdd extends Component {
                   onChange={this.changeHandler}
                 />
               </FormGroup>
-              <Button color="dark" onClick={this.submitMeal}>
+              <Button color="dark" type="submit">
                 Add Meal
               </Button>
             </Form>

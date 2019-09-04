@@ -1,4 +1,4 @@
 Sorting of meals - Resolved
 issue when adding multiple meals in a row - keeps old state - Resolved
-Add meal - Enter does not trigger button
+Add meal - Enter does not trigger button - Resolved
 recipe image will still be uploaded even if the validator throws an error -> leaves orphaned files on server.
