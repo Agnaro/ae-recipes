@@ -5,10 +5,11 @@ const RECIPES = ["123", "456"];
 
 const mockRecipe = (recipes = RECIPES) => {
   const recipe = {};
-  const query = mockQuery(recipes);
+  const mockDocument = { toObject: () => recipes };
+  const query = mockQuery(mockDocument);
   recipe.query = query;
   recipe.find = jest.fn(() => query);
-  recipe.findById = jest.fn(() => Promise.resolve());
+  recipe.findById = jest.fn(() => query);
   return recipe;
 };
 
@@ -35,7 +36,7 @@ describe("The recipe service", () => {
       const mock = mockRecipe();
       const recipeServ = new recipeService.default(mock);
       return recipeServ.List().then(res => {
-        expect(res).toEqual(RECIPES);
+        expect(res.toObject()).toEqual(RECIPES);
         expect(mock.find).toHaveBeenCalled();
       });
     });
